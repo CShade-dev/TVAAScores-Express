@@ -25,4 +25,4 @@ coverage
 
 # Benchmarking
 benchmarks/graphs
-process.env
+.env
