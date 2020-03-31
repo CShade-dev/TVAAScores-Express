@@ -41,15 +41,14 @@ app.post('/login', (request, response, foo) => {
   const emailvalues = [request.body.email]
   client.query('SELECT * FROM users WHERE email=$1', emailvalues, (err, res) => {
     if (res.rows.length === 0) {
-      response.status(401).end()
+      response.status(403).end()
       console.log("Email/Password is incorrect.")
     } 
     else {
       if (email == res.rows[0].email) { 
         if (password == res.rows[0].password) {
         console.log("Logged in as " + res.rows[0].name + " from " + res.rows[0].team + ".");
-        request.session.authenticated = true;
-        response.status(203).end()
+        response.status(200).end()
         }
         else {
           response.status(403).end()
@@ -77,9 +76,7 @@ app.post('/admin', (request, response, foo) => {
   const emailvalues = [request.body.email]
   client.query('SELECT * FROM users WHERE email=$1', emailvalues, (err, res) => {
     if (res.rows.length === 0) {
-      request.session.adminauthenticated = false;
-      response.status(401).end()
-      console.log(request.session.adminauthenticated)
+      response.status(403).end()
       console.log("Email/Password is incorrect.")
     } 
     else {
@@ -87,20 +84,15 @@ app.post('/admin', (request, response, foo) => {
         if (password == res.rows[0].password) {
         console.log(res.rows[0].name + " logged into the Admin Panel.");
         request.session.adminauthenticated = true;
-        console.log(request.session.adminauthenticated)
         response.status(200).end()
         }
         else {
-          response.status(401).end()
-          request.session.adminauthenticated = false;
-          console.log(request.session.adminauthenticated)
+          response.status(403).end()
           console.log("Email/Password is incorrect.")
         }
       } 
       else {
-        response.status(401).end()
-        request.session.adminauthenticated = false;
-        console.log(request.session.adminauthenticated)
+        response.status(403).end()
         console.log("Email/Password is incorrect.")
       }
     }
