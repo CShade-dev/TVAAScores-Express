@@ -98,6 +98,13 @@ app.post('/admin', (request, response, foo) => {
     }
   })
 });
+app.get('/teams', (request, response, foo) => {
+  client.query('SELECT * FROM teams', (err, res) => {
+    response.send(res.rows)
+    response.status(200).end
+  })
+});
+
 
 app.get('/admin', (request, response, foo) => {
     console.log(request.session.adminauthenticated)}
